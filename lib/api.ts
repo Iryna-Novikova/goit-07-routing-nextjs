@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { NewNote, Note } from "@/types/note";
+import type { NewNote, Note, NoteTagType } from "@/types/note";
     
 export interface NotesHttpResponse {
     notes: Note[];
@@ -9,12 +9,13 @@ export interface NotesHttpResponse {
 axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
 
 // отримати список нотаток
-export const fetchNotes = async (query: string, page: number): Promise<NotesHttpResponse> => {
+export const fetchNotes = async (query: string, page: number, tag?:NoteTagType): Promise<NotesHttpResponse> => {
     const myKey = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
     const endPoint = '/notes';
 
     const params = {
         search: query, /*query.trim() ? query.trim() : ' ',*/
+        tag,
         page,
         perPage: 12,
     }

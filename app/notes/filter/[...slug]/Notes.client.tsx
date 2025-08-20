@@ -9,20 +9,22 @@ import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import { useDebouncedCallback } from 'use-debounce';
+import { NoteTagType } from '@/types/note';
 
 interface NotesPageClientProps {
   initialData: NotesHttpResponse;
+  tag?: NoteTagType;
 }
 
-function NotesPageClient({ initialData }: NotesPageClientProps) {
+function NotesPageClient({ initialData, tag }: NotesPageClientProps) {
   // стани
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [query, setQuery] = useState('');
 
   const { data, isError, isLoading, isSuccess } = useQuery({
-    queryKey: ['notes', query, currentPage],
-    queryFn: () => fetchNotes(query, currentPage),
+    queryKey: ['notes', query, currentPage, tag],
+    queryFn: () => fetchNotes(query, currentPage, tag),
     placeholderData: keepPreviousData,
     initialData: initialData,
   });
